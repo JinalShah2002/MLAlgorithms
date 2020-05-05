@@ -11,6 +11,11 @@ The chain already has trucks in various cities and you have data for
 profits and populations from the cities.You would like to use this data to 
 help you select which city to expand to next.
 
+This is the Gradient Descent tester. Since I am only looking to test
+Gradient Descent and make sure it works, the given problem has already
+been determined to be a Linear Regression problem. For future problems,
+the user will have to go through the Machine Learning project development
+steps!
 
 """
 # Importing the Libraries
