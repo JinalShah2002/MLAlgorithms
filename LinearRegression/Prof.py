@@ -63,5 +63,13 @@ regressor.fit(X_train,y_train)
 # Predicting the testing set
 y_pred = regressor.predict(X_test)
 
-# Plotting Gradient Descent to make sure it works
+# Plotting the final hypothesis
+plt.scatter(X_train,y_train,c='red')
+plt.plot(X_train,regressor.predict(X_train),c='blue')
+plt.title('Profits v.s Population')
+plt.xlabel('Population')
+plt.ylabel('Profits')
+plt.show()
+
+# Plotting the Cost Function 
 regressor.plot()
