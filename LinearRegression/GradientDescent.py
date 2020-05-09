@@ -35,7 +35,7 @@ class LinearRegression():
     
     # Getting the Hypothesis
     def hypothesis(self):
-       return np.dot(self.X,self.theta)
+       return np.matmul(self.X,self.theta)
    
     # Cost Function
     def getCost(self):
@@ -61,7 +61,7 @@ class LinearRegression():
         # Declaring the error
         error = h - self.y
         
-        summation = np.dot(error.T,self.X).T
+        summation = np.matmul(error.T,self.X).T
         return (1/m) * summation
     
     # Method to set the Iterations
@@ -71,8 +71,11 @@ class LinearRegression():
     # Method to set Alpha
     def setAlpha(self,a):
         self.alpha = a
-    
-    
+        
+    # Method to get theta(s)
+    def getTheta(self):
+        return self.theta
+       
     # Performing Gradient Descent
     def gradientDescent(self):
         
@@ -101,9 +104,9 @@ class LinearRegression():
         for i in range(0,len(args)):
             temp = args[i]
             val = np.concatenate((val,temp),axis=1)
-        
+       
         # Getting the predictions(s)
-        return np.dot(val,self.theta)
+        return np.matmul(val,self.theta)
         
     
     # A plot of the Cost Function 
