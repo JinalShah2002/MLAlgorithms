@@ -18,6 +18,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from GradientDescent import LinearRegression
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
 
 # Getting the dataset
 PATH = '/Users/jinalshah/SpiderProjects/ML Algorithm Implementations/Data/MultVarLin.csv'
@@ -37,23 +38,14 @@ X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.2,random_state=
 # Feature Scaling 
 # It is important to note that Gradient Descent
 # requires the data's features to be scaled
-
-def featureScaling(data):
-    top = data - data.mean()
-    return top/data.std()
-
-X_scaled = featureScaling(X_train)
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X_train)
 
 # Building the model
 regressor = LinearRegression()
 regressor.fit(X_scaled,y_train)
 
 # Plotting Gradient Descent to make sure it is working
-regressor.setAlpha(0.001)
+regressor.setAlpha(0.01)
+regressor.setIterations(400)
 regressor.plot()
-
-# Prediction
-size = np.array(1650).reshape(1,1)
-rooms = np.array(3).reshape(1,1)
-pred = regressor.predict(size,rooms)
-print(pred)
