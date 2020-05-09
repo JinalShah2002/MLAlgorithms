@@ -21,6 +21,7 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from GradientDescent import LinearRegression
 from sklearn.linear_model import LinearRegression as lin_reg
+from sklearn.preprocessing import StandardScaler
 
 class TestLinearRegression(unittest.TestCase):
     
@@ -68,7 +69,7 @@ class TestLinearRegression(unittest.TestCase):
         regressor_2 = lin_reg()
         regressor_2.fit(X_train,y_train)
     
-        # Prediction val
+        # Prediction value(s)
         pop = np.array(15).reshape(1,1)
         
         # Getting both predictions
@@ -83,8 +84,61 @@ class TestLinearRegression(unittest.TestCase):
         as the error between the 2 predictions is small
         
         """
-        assert grad_predict - lib_predict <= 0 or (grad_predict - lib_predict >= 0 
-                                                   and grad_predict - lib_predict <1)
+        assert (grad_predict - lib_predict <= 0 and grad_predict -lib_predict >=-1) or (grad_predict - lib_predict >= 0 and grad_predict - lib_predict < 1)
+        
+    # Testing the Multiple Feature Gradient Descent Algorithm
+    def test_multiple_grad(self):
+        # Getting the Data
+        PATH = '/Users/jinalshah/SpiderProjects/ML Algorithm Implementations/Data/MultVarLin.csv'
+        data = pd.read_csv(PATH)
+        
+        # Splitting the Data into X and y
+        X = data.copy().drop('Price',axis=1).values
+        y = data.copy()['Price'].values
+        
+        # Reshaping X and y into the appropriate shape
+        X = X.reshape(47,2)
+        y = y.reshape(47,1)
+        
+        # Splitting the data into training and testing
+        X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.2,random_state=0)
+        
+        # Feature Scaling
+        scaler = StandardScaler()
+        X_scaled = scaler.fit_transform(X_train)
+        
+        # Creating both regressors
+        regressor = LinearRegression()
+        regressor.fit(X_scaled,y_train)
+        regressor.setAlpha(0.01)
+        regressor.setIterations(400)
+        regressor_2 = lin_reg()
+        regressor_2.fit(X_train,y_train)
+    
+        # Prediction value(s)
+        size = np.array(1650).reshape(1,1)
+        rooms = np.array(3).reshape(1,1)
+        combined = np.concatenate((size,rooms),axis=1)
+        
+        # We must scale our input for Grad Descent as well!!
+        scaler3 = StandardScaler()
+        combined_scaled = scaler3.fit_transform(combined)
+        
+        
+        # Getting both predictions
+        grad_predict = regressor.predict(combined_scaled)
+        lib_predict = regressor_2.predict(combined)
+        
+        # Testing the Grad Descent Algorithm
+        """
+        
+        While both predictions will not be the same,
+        it is safe to say that Gradient Descent works
+        as the error between the 2 predictions is small
+        
+        """
+        assert grad_predict/lib_predict <= 1.5 or lib_predict/grad_predict <= 1.5
+        
         
     
 if __name__ == '__main__':
