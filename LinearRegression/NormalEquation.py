@@ -25,7 +25,7 @@ class LinearRegression():
     # fit method
     def fit(self,X,y):
         # Column of Ones
-        ones = np.ones([X.shape[1],1])
+        ones = np.ones([X.shape[0],1])
         self.X = np.concatenate((ones,X),axis=1)
         self.y = y
         self.theta = np.zeros([self.X.shape[1],1])
@@ -38,7 +38,7 @@ class LinearRegression():
     
     # Predict method
     def predict(self,*args):
-        # Calling gradient descent if needed
+        # Calling Normal Equation if needed
         if np.array_equal(self.theta,np.zeros([self.X.shape[1],1])):
             self.normalEquation()
         # Column of ones
@@ -48,7 +48,6 @@ class LinearRegression():
         for i in range(0,len(args)):
             temp = args[i]
             val = np.concatenate((val,temp),axis=1)
-       
-        # Getting the predictions(s)
-        return np.matmul(val,self.theta)
         
+        # Getting the predictions(s)
+        return np.matmul(val,self.theta)        
