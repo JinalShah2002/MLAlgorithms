@@ -24,6 +24,31 @@ class LinearRegression():
     
     # fit method
     def fit(self,X,y):
-        self.X =X
+        # Column of Ones
+        ones = np.ones([X.shape[1],1])
+        self.X = np.concatenate((ones,X),axis=1)
         self.y = y
+        self.theta = np.zeros([self.X.shape[1],1])
+    
+    # Getting the thetas
+    def normalEquation(self):
+        inverse = np.linalg.inv(np.matmul(self.X.T,self.X))
+        inverseAndX = np.matmul(inverse,self.X.T)
+        self.theta = np.matmul(inverseAndX,self.y)
+    
+    # Predict method
+    def predict(self,*args):
+        # Calling gradient descent if needed
+        if np.array_equal(self.theta,np.zeros([self.X.shape[1],1])):
+            self.normalEquation()
+        # Column of ones
+        val = np.ones((len(args[0]),1))
+    
+        # Combining the features
+        for i in range(0,len(args)):
+            temp = args[i]
+            val = np.concatenate((val,temp),axis=1)
+       
+        # Getting the predictions(s)
+        return np.matmul(val,self.theta)
         
