@@ -23,6 +23,7 @@ from GradientDescent import LinearRegression
 from sklearn.linear_model import LinearRegression as lin_reg
 from sklearn.preprocessing import StandardScaler
 from NormalEquation import LinearRegression as norm
+from AdvancedOpt import LinearRegression as opt
 
 class TestLinearRegression(unittest.TestCase):
     
