@@ -16,6 +16,7 @@ import pandas as pd
 import numpy as np
 from LogesticRegression import LogesticRegression
 import unittest
+from RegLogesticRegression import LogesticRegression as reg
 
 class TestLinearRegression(unittest.TestCase):
     
@@ -53,6 +54,23 @@ class TestLinearRegression(unittest.TestCase):
         
         # Evaluating cost
         self.assertEqual(round(regressor.getCost(),3),0.693)
+    
+    # Testing Reg Cost
+    def test_reg_cost(self):
+        PATH = '/Users/jinalshah/Jinal/Github Repos/MLAlgorithms/Data/Microchips.csv'
+        raw_data = pd.read_csv(PATH)
+
+        # Splitting into X and y
+        X = raw_data.copy().drop('Result',axis=1).values
+        y = raw_data['Result'].values
+        
+        # Building the Regressor
+        regressor = reg()
+        regressor.fit(X,y)
+        
+        # Evaluating cost
+        self.assertEqual(round(regressor.getCost(),2),0.7)
+        
 
 
 # Main Method
