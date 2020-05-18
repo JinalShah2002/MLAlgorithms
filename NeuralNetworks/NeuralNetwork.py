@@ -35,6 +35,11 @@ class NeuralNetwork():
         self.weights2 = np.random.random(3,1)
         self.weights3 = np.random.random(3,1)
     
+    # Forward Propagation Method
+    def forwardPropagation(self):
+        # A1 node
+        pass
+    
     # Sigmoid Function Method
     def sigmoid(self,z):
         return 1/(1 + np.exp(-z))
