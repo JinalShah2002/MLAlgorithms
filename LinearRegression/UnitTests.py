@@ -23,7 +23,8 @@ from GradientDescent import LinearRegression
 from sklearn.linear_model import LinearRegression as lin_reg
 from sklearn.preprocessing import StandardScaler
 from NormalEquation import LinearRegression as norm
-from AdvancedOpt import LinearRegression as opt
+from RegGradLin import LinearRegression as reg_grad
+import scipy.io
 
 class TestLinearRegression(unittest.TestCase):
     
@@ -287,6 +288,41 @@ class TestLinearRegression(unittest.TestCase):
         
         # Testing the Normal Equation Algorithm
         self.assertEqual(np.round(norm_predict[0][0],2),np.round(lib_predict[0][0],2))
+        
+    # Testing the Regularized Gradient Descent Cost Function
+    def test_reg_grad_cost(self):
+        # Getting the Data
+        PATH = '/Users/jinalshah/Jinal/Github Repos/MLAlgorithms/Data/RegLin.mat'
+        raw_data = scipy.io.loadmat(PATH)
+
+        # Getting X and y
+        X = raw_data['X']
+        y = raw_data['y']
+
+        # Building the regressor
+        regressor = reg_grad()
+        regressor.fit(X,y)
+        
+        self.assertEqual(np.round(regressor.getCost(),0),304)
+    
+    # Testing the Gradient for Regularized Gradient Descent
+    def test_reg_grad_gradient(self):
+         # Getting the Data
+        PATH = '/Users/jinalshah/Jinal/Github Repos/MLAlgorithms/Data/RegLin.mat'
+        raw_data = scipy.io.loadmat(PATH)
+
+        # Getting X and y
+        X = raw_data['X']
+        y = raw_data['y']
+
+        # Building the regressor
+        regressor = reg_grad()
+        regressor.fit(X,y)
+        
+        answer = np.array((-15,598)).reshape(2,1)
+        
+        self.assertEqual(np.round(regressor.gradient(),0).all(),answer.all())
+        
         
     
 if __name__ == '__main__':
